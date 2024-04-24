@@ -1,0 +1,8 @@
+venv/
+testing/
+# pycache
+__pycache__/
+
+.env
+
+app/ignored/
