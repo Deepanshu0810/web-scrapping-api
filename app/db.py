@@ -1,5 +1,6 @@
 from cassandra.cluster import Cluster
 from cassandra.auth import PlainTextAuthProvider
+from cassandra.cqlengine.connection import register_connection, set_default_connection
 import json
 from pathlib import Path
 import os
@@ -26,11 +27,13 @@ def get_cluster():
 def get_cassandra_session():
     cluster = get_cluster()
     session = cluster.connect()
+    register_connection(str(session), session=session)
+    set_default_connection(str(session))
     return session
 
-session = get_cassandra_session()
-row = session.execute("select release_version from system.local").one()
-if row:
-  print(row[0])
-else:
-  print("An error occurred.")
+# session = get_cassandra_session()
+# row = session.execute("select release_version from system.local").one()
+# if row:
+#   print(row[0])
+# else:
+#   print("An error occurred.")
